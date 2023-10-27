@@ -1,77 +1,54 @@
 package WebProject.WebProject.controller;
 
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import WebProject.WebProject.model.request.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import WebProject.WebProject.entity.Category;
-import WebProject.WebProject.entity.Product;
-import WebProject.WebProject.repository.ProductRepository;
 import WebProject.WebProject.service.CategoryService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api/admin/category")
+@CrossOrigin(origins = "*",maxAge = 3600)
 public class CategoryController {
 
 	@Autowired
-	CategoryService categoryService;
-	
-	@Autowired
-	ProductRepository productRepository;
+	private CategoryService categoryService;
 
-	@Autowired
-	HttpSession session;
 
-	@GetMapping("/category/{id}")
-	public String category(@PathVariable int id, Model model) throws Exception {
-		Pageable pageable = PageRequest.of(0, 12);
-		Page<Product> page = productRepository.findAllByCategory_id(id, pageable);
-		Category category = categoryService.getCategoryById(id);
-		List<Category> listCategory = categoryService.findAll();
-		List<Product> listProduct = null;
-		if (category != null) {
-			listProduct = category.getProduct();
-		}
-		int TotalPro = listProduct.size();
-		model.addAttribute("TotalPro",TotalPro);
-		model.addAttribute("listCategory", listCategory);
-		model.addAttribute("search_input", null);
-		model.addAttribute("listProduct", page);
-		model.addAttribute("idCate", id);
-		model.addAttribute("noPageable", "category");
-		return "shop";
+	@GetMapping("/get-all")
+	public ResponseEntity<?> category(){
+		return ResponseEntity.ok(categoryService.findAll());
 	}
-	
-	@GetMapping("/category/{id}/{p}")
-	public String categoryPage(@PathVariable int id,@PathVariable int p, Model model, HttpServletRequest request) throws Exception {
-		String referer = request.getHeader("Referer");
-		Pageable pageable = PageRequest.of(p, 12);
-		Page<Product> page = productRepository.findAllByCategory_id(id, pageable);
-		Category category = categoryService.getCategoryById(id);
-		List<Category> listCategory = categoryService.findAll();
-		List<Product> listProduct = null;
-		if (category != null) {
-			listProduct = category.getProduct();
-		}
-		int TotalPro = listProduct.size();
-		model.addAttribute("TotalPro",TotalPro);
-		model.addAttribute("listCategory", listCategory);
-		model.addAttribute("search_input", null);
-		model.addAttribute("listProduct", page);
-		model.addAttribute("referer", referer);
-		model.addAttribute("idCate", id);
-//		model.addAttribute("noPageable", "noPageable");
-		model.addAttribute("noPageable", "category");
-		return "shop";
+
+	@GetMapping("/get-one/{id}")
+	public ResponseEntity<?> getOne(@PathVariable Long id){
+		return ResponseEntity.ok(categoryService.findById(id));
 	}
+
+	@PostMapping("/add")
+	public ResponseEntity<?> add(@RequestBody CategoryRequest request)  {
+		return ResponseEntity.ok(categoryService.saveCategory(request));
+	}
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody CategoryRequest request)  {
+        return ResponseEntity.ok(categoryService.updateCategory(id,request));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> GetDeleteCart(@PathVariable Long id) {
+        categoryService.deleteCategoryId(id);
+        return ResponseEntity.ok().build();
+    }
 }

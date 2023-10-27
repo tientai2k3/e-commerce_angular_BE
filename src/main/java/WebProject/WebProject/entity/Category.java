@@ -26,11 +26,9 @@ import lombok.NoArgsConstructor;
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	@Column(name = "category_Name", columnDefinition = "nvarchar(1111)")
 	private String category_Name;
-	
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-	private List<Product> product;
+
 }

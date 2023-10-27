@@ -13,7 +13,6 @@ import java.util.Map;
 
 @Service
 public class CloudinaryService {
-
     @Autowired
     private Cloudinary cloudinaryConfig;
 
@@ -21,9 +20,9 @@ public class CloudinaryService {
         try {
             File uploadedFile = convertMultiPartToFile(file);
             @SuppressWarnings("rawtypes")
-			Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
+            Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
             uploadedFile.delete();
-            return  uploadResult.get("url").toString();
+            return uploadResult.get("url").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

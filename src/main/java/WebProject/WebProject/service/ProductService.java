@@ -2,33 +2,26 @@ package WebProject.WebProject.service;
 
 import java.util.List;
 
+import WebProject.WebProject.model.request.ProductRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import WebProject.WebProject.entity.Product;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ProductService {
-	List<Product> getAllProduct();
-	
-	Product saveProduct(Product product);
 
-	Product getProductById(int id);
+	Product saveProduct(ProductRequest request);
 
-	Product updateProduct(Product product);
+	Product findById(Long id);
 
-	void deleteProductById(int id);
-	
-	List<Product> findByProduct_NameContaining(String name);
-	
-	List<Product> findTop12ProductBestSellers();
-	
-	List<Product> findTop12ProductNewArrivals();
+	Product updateProduct(Long id,ProductRequest request);
 
-	Page<Product> findAll(Pageable pageable);
+	void deleteById(Long id);
 
-	Page<Product> findByProduct_NameContaining(String name, Pageable pageable);
+	List<Product> findAll();
 
-	Page<Product> findByProduct_NameAndCategory_idContaining(String name, int category_id, Pageable pageable);
+	Product add(Product p);
 
-	List<Product> findTop4ProductByCategory_id(int name);
+
 }

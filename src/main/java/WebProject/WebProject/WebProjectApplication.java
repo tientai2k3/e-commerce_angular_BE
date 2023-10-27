@@ -3,6 +3,7 @@ package WebProject.WebProject;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,14 +15,6 @@ import com.cloudinary.Cloudinary;
 
 @SpringBootApplication
 public class WebProjectApplication implements CommandLineRunner{
-	@Value("${cloudinary.cloud_name}")
-	private String cloudName;
-
-	@Value("${cloudinary.api_key}")
-	private String apiKey;
-
-	@Value("${cloudinary.api_secret}")
-	private String apiSecret;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(WebProjectApplication.class, args);
@@ -33,12 +26,10 @@ public class WebProjectApplication implements CommandLineRunner{
 	}
 	@Bean
 	public Cloudinary cloudinaryConfig() {
-		Cloudinary cloudinary = null;
-		Map<String, String> config = new HashMap<String, String>();
-		config.put("cloud_name", cloudName);
-		config.put("api_key", apiKey);
-		config.put("api_secret", apiSecret);
-		cloudinary = new Cloudinary(config);
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+				"cloud_name", "dy1hmpdtw",
+				"api_key", "557494677828744",
+				"api_secret", "u5GKvqx8SQILrIxH0-wxqN4vJkI"));
 		return cloudinary;
 	}
 }

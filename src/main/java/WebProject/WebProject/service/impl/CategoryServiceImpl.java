@@ -2,6 +2,7 @@ package WebProject.WebProject.service.impl;
 
 import java.util.List;
 
+import WebProject.WebProject.model.request.CategoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -16,26 +17,29 @@ public class CategoryServiceImpl implements CategoryService {
 	 CategoryRepository categoryRepository;
 	
 	@Override
-	public Category saveCategory(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category saveCategory(CategoryRequest request) {
+		Category c = new Category();
+		c.setCategory_Name(request.getCategory_Name());
+		return categoryRepository.save(c);
 	}
 
 	@Override
-	public Category getCategoryById(int id) {
+	public Category findById(Long id) {
 		// TODO Auto-generated method stub
-		return categoryRepository.getById(id);
+		return categoryRepository.findById(id).get();
 	}
 
 	@Override
-	public Category updateCategory(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category updateCategory(Long id,CategoryRequest request) {
+		Category c=categoryRepository.findById(id).get();
+		c.setCategory_Name(request.getCategory_Name());
+
+		return categoryRepository.save(c);
 	}
 	
 	@Override
-	public void deleteCategoryId(int id) {
-		// TODO Auto-generated method stub
+	public void deleteCategoryId(Long id) {
+		categoryRepository.deleteById(id);
 	}
 
 	@Override

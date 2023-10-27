@@ -31,7 +31,7 @@ import lombok.ToString;
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	@Column(name = "total")
 	private int total;
@@ -47,9 +47,7 @@ public class Order {
 	
 	@Column(name = "fullname", columnDefinition = "nvarchar(1111)")
 	private String fullname;
-	
-	@Column(name = "country", columnDefinition = "nvarchar(1111)")
-	private String country;
+
 	
 	@Column(name = "address", columnDefinition = "nvarchar(1111)")
 	private String address;
@@ -62,13 +60,8 @@ public class Order {
 	
 	@Column(name = "note", columnDefinition = "nvarchar(1111)")
 	private String note;
-	
-	@OneToMany(mappedBy = "order")
-	private List<Order_Item> order_Item;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
 	private User user;
 }

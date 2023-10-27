@@ -3,16 +3,17 @@ package WebProject.WebProject.service;
 import java.util.List;
 
 import WebProject.WebProject.entity.Category;
+import WebProject.WebProject.model.request.CategoryRequest;
 
 public interface CategoryService {
 	
-	Category saveCategory(Category category);
+	Category saveCategory(CategoryRequest request);
 
-	Category getCategoryById(int id);
+	Category findById(Long id);
 
-	Category updateCategory(Category category);
+	Category updateCategory(Long id,CategoryRequest request);
 	
 	List<Category> findAll();
 
-	void deleteCategoryId(int id);
+	void deleteCategoryId(Long id);
 }

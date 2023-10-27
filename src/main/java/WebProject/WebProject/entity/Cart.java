@@ -15,31 +15,31 @@ import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Data // lombok giúp generate các hàm constructor, get, set v.v.
 @AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "cart")
 public class Cart {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	@Column(name = "count", nullable = false)
 	private int count;
-	
+
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
 	private User user;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
 	private Product product;
 }

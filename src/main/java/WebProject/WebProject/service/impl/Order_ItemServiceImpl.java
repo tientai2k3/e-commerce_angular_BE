@@ -2,6 +2,7 @@ package WebProject.WebProject.service.impl;
 
 import java.util.List;
 
+import WebProject.WebProject.entity.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +15,19 @@ public class Order_ItemServiceImpl implements Order_ItemService{
 
 	@Autowired
 	Order_ItemRepository order_ItemRepository;
+
 	@Override
-	public void saveOrder_Item(Order_Item order_Item) {
-		// TODO Auto-generated method stub
-		order_ItemRepository.save(order_Item);
+	public List<Order_Item> findAllByOrder(Order order) {
+		return order_ItemRepository.findAllByOrder(order);
 	}
+
 	@Override
-	public List<Order_Item> getAllByOrder_Id(int id) {
-		// TODO Auto-generated method stub
-		return order_ItemRepository.findAllByOrder_id(id);
+	public void add(Order_Item order_item) {
+		order_ItemRepository.save(order_item);
 	}
+
 	@Override
-	public void deleteById(int id) {
+	public void deleteById(Long id) {
 		order_ItemRepository.deleteById(id);
 	}
 }
